@@ -1,0 +1,144 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- https://github.com/OpenCHAMI/kube-deploy//kustomize/services/namespace/?timeoute=120&ref=main
+- https://github.com/OpenCHAMI/kube-deploy//kustomize/services/db/?timeoute=120&ref=main
+- https://github.com/OpenCHAMI/kube-deploy//kustomize/services/smd/suite/?timeoute=120&ref=main
+- https://github.com/OpenCHAMI/kube-deploy//kustomize/services/bss/suite/?timeoute=120&ref=main
+- https://github.com/OpenCHAMI/kube-deploy//kustomize/services/pcs/suite/?timeoute=120&ref=main
+
+secretGenerator:
+- name: pcs-db-generated
+  namespace: mgmt
+  literals:
+  - username=pcs
+  - password=CHANGEME
+- name: smd-db-generated
+  namespace: mgmt
+  literals:
+  - username=smd
+  - password=CHANGEME
+- name: bss-db-generated
+  namespace: mgmt
+  literals:
+  - username=bss
+  - password=CHANGEME
+
+# TODO ostensibly replacements that reference the name of a generated Secret
+# should include the suffix on build, but apparently they don't, or they do so
+# inconsistently:
+# https://github.com/kubernetes-sigs/kustomize/issues/5899
+# This disables the hash suffix, with the caveat that Secret-only updates will
+# not re-roll Deployments. We don't really expect the DB password Secrets to change
+# after creation--they're baked into the DB--so that's probably fine.
+generatorOptions:
+  disableNameSuffixHash: true
+
+replacements:
+  - source:
+      kind: Secret
+      name: pcs-db-generated
+      version: v1
+    targets:
+      - select:
+          kind: Deployment
+          group: apps
+          version: v1
+          name: pcs
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=POSTGRES_USER].valueFrom.secretKeyRef.name
+          - spec.template.spec.containers.0.env.[name=POSTGRES_PASSWORD].valueFrom.secretKeyRef.name
+      - select:
+          kind: Job
+          group: batch
+          version: v1
+          name: migrate-pcs
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=POSTGRES_USER].valueFrom.secretKeyRef.name
+          - spec.template.spec.containers.0.env.[name=POSTGRES_PASSWORD].valueFrom.secretKeyRef.name
+      - select:
+          kind: Cluster
+          group: postgresql.cnpg.io
+          version: v1
+          name: ochami-postgres
+        fieldPaths:
+          - spec.managed.roles.[name=pcs].passwordSecret.name
+  - source:
+      kind: Secret
+      name: bss-db-generated
+      version: v1
+    targets:
+      - select:
+          kind: Deployment
+          group: apps
+          version: v1
+          name: bss
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=BSS_DBUSER].valueFrom.secretKeyRef.name
+          - spec.template.spec.containers.0.env.[name=BSS_DBPASS].valueFrom.secretKeyRef.name
+      - select:
+          kind: Job
+          group: batch
+          version: v1
+          name: migrate-bss
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=BSS_DBUSER].valueFrom.secretKeyRef.name
+          - spec.template.spec.containers.0.env.[name=BSS_DBPASS].valueFrom.secretKeyRef.name
+      - select:
+          kind: Cluster
+          group: postgresql.cnpg.io
+          version: v1
+          name: ochami-postgres
+        fieldPaths:
+          - spec.managed.roles.[name=bss].passwordSecret.name
+  - source:
+      kind: Secret
+      name: smd-db-generated
+      version: v1
+    targets:
+      - select:
+          kind: Deployment
+          group: apps
+          version: v1
+          name: smd
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=SMD_DBUSER].valueFrom.secretKeyRef.name
+          - spec.template.spec.containers.0.env.[name=SMD_DBPASS].valueFrom.secretKeyRef.name
+      - select:
+          kind: Job
+          group: batch
+          version: v1
+          name: migrate-smd
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=SMD_DBUSER].valueFrom.secretKeyRef.name
+          - spec.template.spec.containers.0.env.[name=SMD_DBPASS].valueFrom.secretKeyRef.name
+      - select:
+          kind: Cluster
+          group: postgresql.cnpg.io
+          version: v1
+          name: ochami-postgres
+        fieldPaths:
+          - spec.managed.roles.[name=smd].passwordSecret.name
+
+# TODO this probably should be handled at the ochami/suite level, since that's where other end
+# user modification happens. However, that precludes doing an earlier replacement in ochami/pcs/suite:
+# image overrides build from the bottom up, and if your included resource includes a replace, your
+# including kustomization needs to match the result of the replace, not the original stub. Top-level
+# image sections do not clobber lower-level ones.
+#
+# This means you can't deploy ochami/pcs independently without modifying its kustomization. It'd be
+# nice if you could render either with a valid image using the stock manifests.
+images:
+- name: power-control-stub
+  newName: ghcr.io/openchami/pcs
+  newTag: v2.10
+- name: bss-stub
+  newName:  ghcr.io/openchami/bss
+  newTag: 1.32
+- name: smd-stub
+  newName:  ghcr.io/openchami/smd
+  newTag: 2.19
+- name: cloud-init-stub
+  newName:  ghcr.io/openchami/smd
+  newTag: 1.3
