@@ -14,5 +14,5 @@ spec:
     repoURL: 'https://github.com/OpenCHAMI/deployment-recipes/"
     targetRevision: 2025-08-21
   destination:
-    namespace: mgmt
+    namespace: openchami
     server: 'https://kubernetes.default.svc'
