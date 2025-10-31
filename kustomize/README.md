@@ -221,8 +221,8 @@ echo 'nodes:
 ```
 
 ```
-SMD=$(kubectl get svc -n mgmt smd -ojson | jq .status.loadBalancer.ingress[0].ip -r);
-PCS=$(kubectl get svc -n mgmt pcs -ojson | jq .status.loadBalancer.ingress[0].ip -r);
+SMD=$(kubectl get svc -n openchami smd -ojson | jq .status.loadBalancer.ingress[0].ip -r);
+PCS=$(kubectl get svc -n openchami pcs -ojson | jq .status.loadBalancer.ingress[0].ip -r);
 echo "default-cluster: bazfoo
 clusters:
     - name: bazfoo

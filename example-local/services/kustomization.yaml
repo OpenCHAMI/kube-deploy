@@ -10,17 +10,17 @@ resources:
 
 secretGenerator:
 - name: pcs-db-generated
-  namespace: mgmt
+  namespace: openchami
   literals:
   - username=pcs
   - password=CHANGEME
 - name: smd-db-generated
-  namespace: mgmt
+  namespace: openchami
   literals:
   - username=smd
   - password=CHANGEME
 - name: bss-db-generated
-  namespace: mgmt
+  namespace: openchami
   literals:
   - username=bss
   - password=CHANGEME
