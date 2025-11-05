@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   annotations:
   name: cloud-init
@@ -9,11 +9,6 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: cloud-init
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       creationTimestamp: null
@@ -42,7 +37,7 @@ spec:
         name: cloud-init
         volumeMounts:
           - mountPath: /cidata
-            name: data
+            name: data-cloud-init
         ports:
           - containerPort: 27777
             name: http
@@ -59,20 +54,11 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: data-cloud-init
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: data-cloud-init
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
-  storageClassName: default
-  volumeMode: Filesystem
+  volumeClaimTemplates:
+  - metadata:
+      name: data-cloud-init
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 2Gi
