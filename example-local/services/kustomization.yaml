@@ -132,7 +132,7 @@ replacements:
 images:
 - name: power-control-stub
   newName: ghcr.io/openchami/pcs
-  newTag: v2.10
+  newTag: v2.11
 - name: bss-stub
   newName:  ghcr.io/openchami/bss
   newTag: 1.32
