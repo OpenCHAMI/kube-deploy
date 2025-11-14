@@ -23,8 +23,10 @@ spec:
         env:
           - name: PCS_FAKE_VAULT_REDFISH_USER
             value: "admin"
-          - name: PCS_FAKE_VAULT_REDFISH_PASS
+          - name: PCS_FAKE_VAULT_REDFISH_PASSWORD
             value: "password"
+          - name: FAKE_VAULT_ENABLED
+            value: "true"
           - name: PCS_DEBUG_RFE_PROTO
             value: "http"
           - name: PCS_DEBUG_RFE_HOST
