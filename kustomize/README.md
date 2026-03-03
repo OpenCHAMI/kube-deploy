@@ -94,7 +94,7 @@ or [GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-
 and configure Argo to use it
 
 ```
-argocd repo add https://github.com/myuser/myfork --username myuser ----ssh-private-key-path /path/to/key
+argocd repo add git@github.com:myuser/myfork --username myuser --ssh-private-key-path /path/to/key
 ```
 
 ### Create applications
