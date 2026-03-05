@@ -324,7 +324,7 @@ You can watch the transition proceed through the CLI, but getting kicked out of
 the machine is more visceral proof:
 
 ```
-ochami --config ~/.config/ochami/demo pcs transition monitor f8579afb-2843-417c-9bff-65135c0765a3
+ochami --config /tmp/ochami-demo.yaml pcs transition monitor f8579afb-2843-417c-9bff-65135c0765a3
 ```
 
 However, something's broken re API compatibility and while `transition start`
