@@ -10,10 +10,10 @@ resources:
 labels:
 - includeSelectors: false
   pairs:
-    app.kubernetes.io/version: v2.18.0
+    app.kubernetes.io/version: 2.19
     app.kubernetes.io/component: state-manager
 
 images:
 - name: smd-stub
-  newName: docker.io/traines/smd
-  newTag: v2.0.2-debug.4
+  newName: ghcr.io/openchami/smd
+  newTag: 2.19
