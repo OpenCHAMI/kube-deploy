@@ -17,5 +17,5 @@ resources:
 # nice if you could render either with a valid image using the stock manifests.
 images:
 - name: power-control-stub
-  newName: docker.io/traines/power-control
-  newTag: v1.1.0-debug.14444
+  newName: ghcr.io/openchami/pcs
+  newTag: v2.12.0
