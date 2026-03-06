@@ -24,9 +24,9 @@ Docker network.
 Install cert-manager and ArgoCD:
 
 ```
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.2/cert-manager.yaml
+kubectl apply --server-side -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.2/cert-manager.yaml
 kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply --server-side -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
 I'd originally included cert-manager as part of the virtual machine
@@ -103,8 +103,8 @@ argocd repo add git@github.com:myuser/myfork --username myuser --ssh-private-key
 From your fork checkout directory:
 
 ```
-kubectl apply -n argocd -f test-node/app.yaml
-kubectl apply -n argocd -f services/app.yaml
+kubectl apply --server-side -n argocd -f test-node/app.yaml
+kubectl apply --server-side -n argocd -f services/app.yaml
 ```
 
 ### Deploy the virtual machine
