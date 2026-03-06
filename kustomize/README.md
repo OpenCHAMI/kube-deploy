@@ -53,13 +53,25 @@ kubectl get svc -n argocd argocd-server -ojson | jq .status.loadBalancer.ingress
 argocd admin initial-password -n argocd
 ```
 
+Store the external IP in a variable for easy access:
+
+```
+ARGOCD_SERVER=$(kubectl get svc -n argocd argocd-server -ojson | jq .status.loadBalancer.ingress[0].ip -r)
+```
+
 Log in using the initial password:
 
 ```
-argocd login 172.19.128.1
+argocd login ${ARGOCD_SERVER}
 ```
 
-Update the password to something else:
+You will see a warning regarding a self-signed certificate. You can respond `y`
+to proceed insecurely for the demo.
+
+The username is `admin` and the password is the value you saw earlier after
+running `argocd admin initial-password`.
+
+Update the password to something else:https://github.com/rainest/openchami-kustomize-local
 
 ```
 argocd account update-password
@@ -83,12 +95,19 @@ directory](https://github.com/OpenCHAMI/kube-deploy/tree/main/example-local).
 
 In your private copy:
 
-1. Change `remote/services/app.yaml` and `remote/test-node/app.yaml` to use
-   your fork in `spec.source.repoURL`.
-1. Edit `remote/services/kustomization.yaml` to set your DB passwords
-   under the `secretGenerator` section.
-1. Edit `remote/test-node/userdata` to set an SSH key and hashed password for
-   the virtual machine.
+1. Change `services/app.yaml` and `test-node/app.yaml` to use your fork in
+   `spec.source.repoURL`.
+1. Edit `services/kustomization.yaml` to set your DB passwords under the
+   `secretGenerator` section. Replace the `CHANGEME` placeholder value with
+   something else.
+1. Edit `test-node/userdata` to set an SSH key for the virtual machine. Replace
+   the `ssh-ed25519 CHANGEME username@host` placeholder with the value of one
+   of your SSH public keys (for example, the value in `~/.ssh/id_ed25519.pub`.
+1. Edit `test-node/userdata` to set a hashed password for the virtual machine
+   user. Run the `echo "CHANGEME" | mkpasswd --method=SHA-512 --rounds=4096 --stdin`
+   command with your desired password instead of `CHANGEME`. Replace the
+   `hashed_passwd: "$6$rounds=FAKEVALUE.FAKEVALUE.FAKEVALUE.FAKEVALUE"`
+   placeholder with the actual value returned by `mkpasswd`.
 
 Create a deploy key (for [GitLab](https://docs.gitlab.com/user/project/deploy_keys/)
 or [GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys))
