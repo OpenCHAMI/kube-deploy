@@ -9,7 +9,10 @@ spec:
     - ServerSideApply=true
     - SkipDryRunOnMissingResource=true
   source:
-    path: 'kustomize/test-node'
+    # These must match the private repo path. The demo requires copying the
+    # full example-local directory into the private repo, rather than its
+    # contents into the top level of the private repo.
+    path: 'example-local/test-node'
     repoURL: 'https://github.com/OpenCHAMI/kube-deploy'
     targetRevision: main
   destination:

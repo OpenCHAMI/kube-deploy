@@ -71,7 +71,7 @@ to proceed insecurely for the demo.
 The username is `admin` and the password is the value you saw earlier after
 running `argocd admin initial-password`.
 
-Update the password to something else:https://github.com/rainest/openchami-kustomize-local
+Update the password to something else:
 
 ```
 argocd account update-password
@@ -90,13 +90,14 @@ This repository seeks to include generic manifests that can be applied in any
 environment, and does not include site-local configuration or secrets.
 
 To manage your own installation, you will want to create your own private
-repository, with a copy of the contents of the [example-local
+repository, with a copy of the [example-local
 directory](https://github.com/OpenCHAMI/kube-deploy/tree/main/example-local).
 
 In your private copy:
 
 1. Change `services/app.yaml` and `test-node/app.yaml` to use your fork in
-   `spec.source.repoURL`.
+   `spec.source.repoURL`. `spec.source.targetRevision` must match your desired branch (the
+   example applications use `main` by default).
 1. Edit `services/kustomization.yaml` to set your DB passwords under the
    `secretGenerator` section. Replace the `CHANGEME` placeholder value with
    something else.
