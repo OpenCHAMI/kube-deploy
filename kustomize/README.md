@@ -77,10 +77,11 @@ Application manifests, resources must be available in a git repository.
 This repository seeks to include generic manifests that can be applied in any
 environment, and does not include site-local configuration or secrets.
 
-You'll need to create your own private fork of https://github.com/rainest/openchami-kustomize-local
-to hold your overlay.
+To manage your own installation, you will want to create your own private
+repository, with a copy of the contents of the [example-local
+directory](https://github.com/OpenCHAMI/kube-deploy/tree/main/example-local).
 
-In your fork:
+In your private copy:
 
 1. Change `remote/services/app.yaml` and `remote/test-node/app.yaml` to use
    your fork in `spec.source.repoURL`.
