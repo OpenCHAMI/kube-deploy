@@ -42,7 +42,7 @@ change the admin Service to a LoadBalancer and set up your account:
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 ```
 
-Retrieve the Service external IP and initial password:
+Retrieve the Service external IP and initial password. For example:
 
 ```
 kubectl get svc -n argocd argocd-server -ojson | jq .status.loadBalancer.ingress[0].ip -r
@@ -78,7 +78,11 @@ argocd account update-password
 ```
 
 You'll now be able to log in to the web UI at https://172.19.128.1/ (the
-username is `admin`). This guide will use the CLI to create and sync
+username is `admin`). Note that your IP may differ. Your browser cannot use the
+shell variable, and you'll need to use the IP directly if you don't have a
+means to spoof DNS resolution for ti.
+
+This guide will use the CLI to create and sync
 Applications, but the UI's useful for seeing the status of managed resources.
 
 ### Set up a private repository
@@ -187,10 +191,17 @@ directly via cURL:
 kubectl patch svc -n kubevirtbmc-system default-fred-virtbmc -p '{"spec": {"type": "LoadBalancer"}}'
 ```
 
+Store the BMC address in a variable:
+
 ```
-BMC=$(kubectl get svc -n kubevirtbmc-system default-fred-virtbmc -ojson | jq .status.loadBalancer.ingress[0].ip -r); curl -svX POST \
-  -H "Content-Type: application/json" -u admin:password \
-  http://172.19.128.4/redfish/v1/Systems/1/Actions/ComputerSystem.Reset \
+BMC=$(kubectl get svc -n kubevirtbmc-system default-fred-virtbmc -ojson | jq .status.loadBalancer.ingress[0].ip -r)
+```
+
+Then, send a request to its reset endpoint:
+
+```
+curl -svX POST -H "Content-Type: application/json" -u admin:password \
+  http://${BMC$}/redfish/v1/Systems/1/Actions/ComputerSystem.Reset \
   -d '{"ResetType":"ForceRestart"}'
 ```
 
