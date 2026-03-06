@@ -325,9 +325,7 @@ the machine is more visceral proof:
 ochami --config /tmp/ochami-demo.yaml pcs transition monitor f8579afb-2843-417c-9bff-65135c0765a3
 ```
 
-However, something's broken re API compatibility and while `transition start`
-works, `transition show` and `transition list` have started 404ing. Pending
-investigation of that, you can check the VM to see that it's restarting:
+You can also check the virtual machine status directly:
 
 ```
 $ kubectl get virtualmachine
