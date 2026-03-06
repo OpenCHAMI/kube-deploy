@@ -17,7 +17,7 @@ users:
   #
   # will provide a passwd string you can use with hashed_passwd for password login:
   #
-  # hashed_passwd: "$6$rounds=4096$bEi3oQdeI7.odStr$tW/Tvw.kwYCVIiNse11C9yyBOzb/kAen2WUa1kUZXYSisL8DHrH.cRJqjcES9J1T8JL3duiV6Z6DcMkQtltj7."
+  hashed_passwd: "$6$rounds=FAKEVALUE.FAKEVALUE.FAKEVALUE.FAKEVALUE"
   # Password is disabled by default, which has the knockon effect of not allowing sudo either
   lock_passwd: false
   sudo: "ALL=(ALL) ALL"
