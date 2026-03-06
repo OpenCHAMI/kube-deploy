@@ -191,13 +191,10 @@ lacks Redfish endpoints that the [OpenCHAMI discovery tool](https://github.com/O
 needs. We can hopefully improve this, but for now it's easiest to manually
 enter machine details.
 
-Released versions of the CLI manual discovery lack support for some information
-that PCS needs. Pending approval and release of
-https://github.com/OpenCHAMI/ochami/pull/47 and https://github.com/OpenCHAMI/ochami/pull/51
-this uses yet another custom build:
+To add a test machine to SMD, you'll need the OpenCHAMI `ochami` CLI tool:
 
 ```
-go install github.com/rainest/ochami@v0.6.0-beta-pcs
+go install github.com/github.com/OpenCHAMI/ochami@v0.7.0
 ```
 
 Somewhat amusingly, PCS doesn't actually make use of almost any of the
