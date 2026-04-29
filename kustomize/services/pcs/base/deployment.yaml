@@ -21,18 +21,6 @@ spec:
         image: power-control-stub
         imagePullPolicy: IfNotPresent
         env:
-          - name: PCS_FAKE_VAULT_REDFISH_USER
-            value: "admin"
-          - name: PCS_FAKE_VAULT_REDFISH_PASSWORD
-            value: "password"
-          - name: FAKE_VAULT_ENABLED
-            value: "true"
-          - name: PCS_DEBUG_RFE_PROTO
-            value: "http"
-          - name: PCS_DEBUG_RFE_HOST
-            value: "default-fred-virtbmc"
-          - name: PCS_DEBUG_RFE_DOMAIN
-            value: "kubevirtbmc-system"
           - name: LOG_LEVEL
             value: INFO
           # TODO using the standard port didn't work for whatever reason,
