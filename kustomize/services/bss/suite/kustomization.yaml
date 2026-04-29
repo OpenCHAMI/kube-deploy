@@ -10,10 +10,10 @@ resources:
 labels:
 - includeSelectors: false
   pairs:
-    app.kubernetes.io/version: v1.32
+    app.kubernetes.io/version: "v1.32"
     app.kubernetes.io/component: boot-script-service
 
 images:
 - name: bss-stub
   newName: ghcr.io/openchami/bss
-  newTag: 1.32
+  newTag: "1.32"
