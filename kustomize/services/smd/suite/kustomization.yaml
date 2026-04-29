@@ -10,10 +10,10 @@ resources:
 labels:
 - includeSelectors: false
   pairs:
-    app.kubernetes.io/version: 2.19
+    app.kubernetes.io/version: "2.19"
     app.kubernetes.io/component: state-manager
 
 images:
 - name: smd-stub
   newName: ghcr.io/openchami/smd
-  newTag: 2.19
+  newTag: "2.19"

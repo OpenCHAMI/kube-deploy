@@ -18,4 +18,4 @@ resources:
 images:
 - name: power-control-stub
   newName: ghcr.io/openchami/pcs
-  newTag: v2.12.0
+  newTag: "v2.12.0"

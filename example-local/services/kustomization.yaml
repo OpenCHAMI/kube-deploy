@@ -132,13 +132,13 @@ replacements:
 images:
 - name: power-control-stub
   newName: ghcr.io/openchami/pcs
-  newTag: v2.12.0
+  newTag: "v2.12.0"
 - name: bss-stub
   newName:  ghcr.io/openchami/bss
-  newTag: 1.32
+  newTag: "1.32"
 - name: smd-stub
   newName:  ghcr.io/openchami/smd
-  newTag: 2.19
+  newTag: "2.19"
 - name: cloud-init-stub
   newName:  ghcr.io/openchami/cloud-init
-  newTag: 1.4
+  newTag: "1.4"
