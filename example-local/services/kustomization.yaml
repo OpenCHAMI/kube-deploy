@@ -7,6 +7,9 @@ resources:
 - https://github.com/OpenCHAMI/kube-deploy//kustomize/services/smd/suite/?timeoute=120&ref=main
 - https://github.com/OpenCHAMI/kube-deploy//kustomize/services/bss/suite/?timeoute=120&ref=main
 - https://github.com/OpenCHAMI/kube-deploy//kustomize/services/pcs/suite/?timeoute=120&ref=main
+# Add PCS override credentials for the test-node directory over the base PCS Deployment.
+# TODO this should likely be separate, but multi-level examples are a task for another day.
+- https://github.com/OpenCHAMI/kube-deploy//kustomize/test-node/pcs-credentials/?timeoute=120&ref=main
 
 secretGenerator:
 - name: pcs-db-generated

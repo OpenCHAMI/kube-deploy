@@ -1,0 +1,58 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+replacements:
+  - sourceValue: "admin"
+    targets:
+      - select:
+          kind: Deployment
+          group: apps
+          version: v1
+          name: pcs
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=PCS_FAKE_VAULT_REDFISH_USER].valueFrom.secretKeyRef.name
+  - sourceValue: "password"
+    targets:
+      - select:
+          kind: Deployment
+          group: apps
+          version: v1
+          name: pcs
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=PCS_FAKE_VAULT_REDFISH_PASSWORD].valueFrom.secretKeyRef.name
+  - sourceValue: "true"
+    targets:
+      - select:
+          kind: Deployment
+          group: apps
+          version: v1
+          name: pcs
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=FAKE_VAULT_ENABLED].valueFrom.secretKeyRef.name
+  - sourceValue: "http"
+    targets:
+      - select:
+          kind: Deployment
+          group: apps
+          version: v1
+          name: pcs
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=PCS_DEBUG_RFE_PROTO].valueFrom.secretKeyRef.name
+  - sourceValue: "default-fred-virtbmc"
+    targets:
+      - select:
+          kind: Deployment
+          group: apps
+          version: v1
+          name: pcs
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=PCS_DEBUG_RFE_HOST].valueFrom.secretKeyRef.name
+  - sourceValue: "kubevirtbmc-system"
+    targets:
+      - select:
+          kind: Deployment
+          group: apps
+          version: v1
+          name: pcs
+        fieldPaths:
+          - spec.template.spec.containers.0.env.[name=PCS_DEBUG_RFE_DOMAIN].valueFrom.secretKeyRef.name
