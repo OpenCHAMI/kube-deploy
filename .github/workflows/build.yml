@@ -1,0 +1,48 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  kustomize_services:
+    name: 'OpenCHAMI Services'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v6
+      - name: 'Kustomize Build'
+        uses: karancode/kustomize-github-action@v1.3.1
+        with:
+          # action is a bit busted on current curl versions, this adds garbage auth headers to work around it
+          token: 'fake'
+          kustomize_version: '5.8.1'
+          kustomize_build_dir: 'kustomize/services'
+          kustomize_comment: false
+          kustomize_output_file: "manifests/services.yaml"
+          #kustomize_build_options: "--load_restrictor none"
+          enable_alpha_plugins: false
+        #env:
+        #  GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+  kustomize_test_node:
+    name: 'Test Node'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v6
+      - name: 'Kustomize Build'
+        uses: karancode/kustomize-github-action@v1.3.1
+        with:
+          token: 'fake'
+          kustomize_version: '5.8.1'
+          kustomize_build_dir: 'kustomize/test-node'
+          kustomize_comment: false
+          kustomize_output_file: "manifests/services.yaml"
+          #kustomize_build_options: "--load_restrictor none"
+          enable_alpha_plugins: false
+        #env:
+        #  GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
